@@ -10,6 +10,30 @@
 </h:head>
 
 <h:body>
-Bienvenido a la pantalla principal
+
+	<h:dataTable id="tblEmpleados" var="empleados" value="#{principalController.empleados}" headerClass="headerTable" rowClasses="rowTable rowTableLine">
+		<h:column>
+			<f:facet name="header">Nombre</f:facet>
+			<h:outputText value="#{empleados.nombre}"/>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Primer Apellido</f:facet>
+			<h:outputText value="#{empleados.primerApellido}"/>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Segundo Apellido</f:facet>
+			<h:outputText value="#{empleados.segundoApellido}"/>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Puesto</f:facet>
+			<h:outputText value="#{empleados.puesto}"/>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Estatus</f:facet>
+			<h:outputText value="ACTIVO" rendered="#{empleados.estatus}"/>
+			<h:outputText value="INACTIVO" rendered="#{!empleados.estatus}"/>
+		</h:column>
+	</h:dataTable>
+
 </h:body>
 </html>
