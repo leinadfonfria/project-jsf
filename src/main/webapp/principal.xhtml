@@ -6,35 +6,89 @@
 
 <h:head>
 
-	<h:outputStylesheet library="css" name="styles.css" />
-
+	<!-- <h:outputStylesheet library="css" name="styles.css" /> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </h:head>
 
 <h:body>
 
-	<h:dataTable id="tblEmpleados" var="empleados" value="#{principalController.empleados}" headerClass="headerTable" rowClasses="rowTable rowTableLine">
-		<h:column>
-			<f:facet name="header">Nombre</f:facet>
-			<h:outputText value="#{empleados.nombre}"/>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Primer Apellido</f:facet>
-			<h:outputText value="#{empleados.primerApellido}"/>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Segundo Apellido</f:facet>
-			<h:outputText value="#{empleados.segundoApellido}"/>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Puesto</f:facet>
-			<h:outputText value="#{empleados.puesto}"/>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Estatus</f:facet>
-			<h:outputText value="ACTIVO" rendered="#{empleados.estatus}"/>
-			<h:outputText value="INACTIVO" rendered="#{!empleados.estatus}"/>
-		</h:column>
-	</h:dataTable>
+	<h3>
+		<h:outputText
+			value="Bienvenido #{sessionController.usuarioDTO.usuario}" />
+	</h3>
+
+	<h:form>
+	
+		<p:commandButton value="Cerrar Sesión" action="#{sessionCloseController.cerrarSesion}"/>
+	
+		<p:dataTable id="tblEmpleados" var="empleados"
+			value="#{principalController.empleados}" paginator="true" rows="5"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
+			currentPageReportTemplate="{startRecord}-{endRecord} de {totalRecords} registros"
+			rowsPerPageTemplate="5,10,20" emptyMessage="Sin registros"
+			paginatorPosition="bottom"
+			filteredValue="#{principalController.empleadosFiltrados}"
+			reflow="true">
+
+			<f:facet name="{Exporters}">
+				<div style="float: right; padding-top: 5px;">
+					<h:commandLink>
+						<p:graphicImage name="img/excel.png" width="24" />
+						<p:dataExporter type="xls" target="tblEmpleados"
+							fileName="ReporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="img/xlsx.png" width="24" />
+						<p:dataExporter type="xlsxstream" target="tblEmpleados"
+							fileName="ReporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="img/pdf.png" width="24" />
+						<p:dataExporter type="pdf" target="tblEmpleados"
+							fileName="ReporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="img/csv.png" width="24" />
+						<p:dataExporter type="csv" target="tblEmpleados"
+							fileName="ReporteEmpleados" />
+					</h:commandLink>
+
+					<h:commandLink>
+						<p:graphicImage name="img/xml.png" width="24" />
+						<p:dataExporter type="xml" target="tblEmpleados"
+							fileName="ReporteEmpleados" />
+					</h:commandLink>
+				</div>
+			</f:facet>
+
+			<p:column headerText="Nombre" filterBy="#{empleados.nombre}"
+				filterMatchMode="contains" sortBy="#{empleados.nombre}">
+				<h:outputText value="#{empleados.nombre}" />
+			</p:column>
+			<p:column headerText="Primer Apellido"
+				filterBy="#{empleados.primerApellido}" filterMatchMode="contains"
+				sortBy="#{empleados.primerApellido}">
+				<h:outputText value="#{empleados.primerApellido}" />
+			</p:column>
+			<p:column headerText="Segundo Apellido"
+				filterBy="#{empleados.segundoApellido}" filterMatchMode="contains"
+				sortBy="#{empleados.segundoApellido}">
+				<h:outputText value="#{empleados.segundoApellido}" />
+			</p:column>
+			<p:column headerText="Puesto" filterBy="#{empleados.puesto}"
+				filterMatchMode="contains" sortBy="#{empleados.puesto}">
+				<h:outputText value="#{empleados.puesto}" />
+			</p:column>
+			<p:column headerText="Estatus">
+				<h:outputText value="ACTIVO" rendered="#{empleados.estatus}" />
+				<h:outputText value="INACTIVO" rendered="#{!empleados.estatus}" />
+			</p:column>
+		</p:dataTable>
+
+	</h:form>
 
 </h:body>
 </html>
